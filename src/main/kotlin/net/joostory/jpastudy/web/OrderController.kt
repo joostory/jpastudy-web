@@ -8,6 +8,7 @@ import net.joostory.jpastudy.service.OrderService
 import org.springframework.stereotype.Controller
 import org.springframework.ui.Model
 import org.springframework.web.bind.annotation.GetMapping
+import org.springframework.web.bind.annotation.ModelAttribute
 import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestParam
@@ -38,10 +39,9 @@ class OrderController(
     @GetMapping("/orders")
     fun orderList(
         model: Model,
-        @RequestParam(defaultValue = "") memberName: String,
-        @RequestParam(required = false) orderStatus: OrderStatus?
+        @ModelAttribute("orderSearch") orderSearch: OrderSearch
     ): String {
-        model.addAttribute("orders", orderService.findOrders(OrderSearch(memberName, orderStatus)))
+        model.addAttribute("orders", orderService.findOrders(orderSearch))
         return "order/orderList"
     }
 

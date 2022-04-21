@@ -6,12 +6,12 @@
 <div class="container">
     <div th:replace="fragments/bodyHeader :: bodyHeader"></div>
     <div>
-        <form method="get" class="form form-inline">
+        <form method="get" class="form form-inline" th:object="${orderSearch}">
             <div class="form-group">
-                <input class="form-control" name="memberName" />
+                <input class="form-control" name="memberName" th:field="*{memberName}" />
             </div>
             <div class="form-group">
-                <select class="form-control" name="orderStatus">
+                <select class="form-control" name="orderStatus" th:field="*{orderStatus}">
                     <option value="">전체</option>
                     <option value="ORDER">주문</option>
                     <option value="CANCEL">취소</option>
