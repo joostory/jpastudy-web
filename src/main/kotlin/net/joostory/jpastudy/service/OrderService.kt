@@ -33,7 +33,7 @@ class OrderService(
     }
 
     fun findOrders(orderSearch: OrderSearch): MutableList<Order> {
-        return orderRepository.findAll(orderSearch.toSpecification())
-//        return orderRepository.search(orderSearch)
+//        return orderRepository.findAll(orderSearch.toSpecification())
+        return orderRepository.search(orderSearch)
     }
 }
