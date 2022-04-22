@@ -4,8 +4,11 @@ import net.joostory.jpastudy.domain.Delivery
 import net.joostory.jpastudy.domain.Order
 import net.joostory.jpastudy.domain.OrderItem
 import net.joostory.jpastudy.domain.OrderSearch
+import net.joostory.jpastudy.domain.OrderSpec.Companion.isOrderStatus
+import net.joostory.jpastudy.domain.OrderSpec.Companion.memberName
 import net.joostory.jpastudy.repository.MemberRepository
 import net.joostory.jpastudy.repository.OrderRepository
+import org.springframework.data.jpa.domain.Specification.*
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 
@@ -17,7 +20,7 @@ class OrderService(
     private val itemService: ItemService
 ) {
     fun order(memberId: Long, itemId: Long, count: Int): Long? {
-        val member = memberRepository.findOne(memberId)
+        val member = memberRepository.findById(memberId).orElseThrow()
         val item = itemService.findOne(itemId)
 
         val delivery = Delivery(address = member?.address)
@@ -32,7 +35,10 @@ class OrderService(
         order?.cancel()
     }
 
-    fun findOrders(orderSearch: OrderSearch): MutableList<Order>? {
-        return orderRepository.findAll(orderSearch)
+    fun findOrders(orderSearch: OrderSearch): MutableList<Order> {
+        return orderRepository.findAll(
+            where(memberName(orderSearch.memberName).and(isOrderStatus()))
+        )
+//        return orderRepository.search(orderSearch)
     }
 }

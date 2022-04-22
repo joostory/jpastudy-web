@@ -2,6 +2,8 @@ package net.joostory.jpastudy.service
 
 import net.joostory.jpastudy.domain.Member
 import net.joostory.jpastudy.repository.MemberRepository
+import org.springframework.data.domain.Page
+import org.springframework.data.domain.Pageable
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 
@@ -18,7 +20,7 @@ class MemberService(
 
     private fun validateDuplicateMember(member: Member) {
         val findMembers = memberRepository.findByName(member.name)
-        if (findMembers?.isEmpty() != true) {
+        findMembers.ifPresent {
             throw IllegalStateException("이미 존재하는 회원입니다.")
         }
     }
@@ -27,7 +29,11 @@ class MemberService(
         return memberRepository.findAll()
     }
 
-    fun findOne(memberId: Long): Member? {
-        return memberRepository.findOne(memberId)
+    fun findMembers(pageable: Pageable): Page<Member> {
+        return memberRepository.findAll(pageable)
+    }
+
+    fun findOne(memberId: Long): Member {
+        return memberRepository.findById(memberId).orElseThrow()
     }
 }

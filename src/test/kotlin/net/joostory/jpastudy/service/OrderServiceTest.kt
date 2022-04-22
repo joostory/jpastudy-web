@@ -75,4 +75,9 @@ internal class OrderServiceTest(
         assertEquals(OrderStatus.CANCEL, order!!.status, "주문취소시 상태는 CANCEL")
         assertEquals(stockQuantity + 2, item.stockQuantity, "주문이 취소된 상품은 그만큼 재고가 증가해야한다.")
     }
+
+    @Test
+    fun 주문검색() {
+
+    }
 }

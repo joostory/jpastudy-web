@@ -4,9 +4,12 @@ import net.joostory.jpastudy.domain.Address
 import net.joostory.jpastudy.domain.Member
 import net.joostory.jpastudy.service.ItemService
 import net.joostory.jpastudy.service.MemberService
+import org.springframework.beans.factory.annotation.Qualifier
+import org.springframework.data.domain.Pageable
 import org.springframework.stereotype.Controller
 import org.springframework.ui.Model
 import org.springframework.web.bind.annotation.GetMapping
+import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.PostMapping
 
 @Controller
@@ -27,8 +30,15 @@ class MemberController(
     }
 
     @GetMapping("/members")
-    fun list(model: Model): String {
-        model.addAttribute("members", memberService.findMembers())
+    fun list(pageable: Pageable, model: Model): String {
+        val memberPage = memberService.findMembers(pageable)
+        model.addAttribute("members", memberPage.content)
         return "members/memberList.html"
+    }
+
+    @GetMapping("/members/{id}/edit")
+    fun memberUpdateForm(@PathVariable("id") member: Member, model: Model): String {
+        model.addAttribute("member", member)
+        return "members/updateMemberForm"
     }
 }

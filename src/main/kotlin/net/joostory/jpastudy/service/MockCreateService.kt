@@ -22,6 +22,9 @@ class MockCreateService(
             zipcode = "123-123"
         )
         memberService.join(member)
+        memberService.join(Member(name = "회원2", address = Address(city = "성남", street = "판교역로", zipcode = "123-123")))
+        memberService.join(Member(name = "회원3", address = Address(city = "성남", street = "중앙공원로", zipcode = "123-123")))
+        memberService.join(Member(name = "회원4", address = Address(city = "용인", street = "수지로", zipcode = "123-123")))
 
         val book = createBook("시골개발자의 JPA 책", 20000, 10)
         itemService.saveItem(book)

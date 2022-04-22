@@ -5,9 +5,14 @@ import javax.persistence.Embedded
 import javax.persistence.Entity
 import javax.persistence.GeneratedValue
 import javax.persistence.Id
+import javax.persistence.NamedQuery
 import javax.persistence.OneToMany
 
 @Entity
+@NamedQuery(
+    name = "Member.findByUsername",
+    query = "select m from Member m where m.name = :username"
+)
 class Member(
     @Id @GeneratedValue
     @Column(name = "MEMBER_ID")

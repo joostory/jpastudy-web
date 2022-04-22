@@ -25,7 +25,7 @@ class MemberServiceTest(
         memberService.join(member)
 
         // then
-        assertEquals(member, memberRepository.findOne(member.id!!))
+        assertEquals(member, memberRepository.findById(member.id!!).orElseThrow())
     }
 
     @Test
@@ -64,6 +64,6 @@ class MemberServiceTest(
         val findMember = memberService.findOne(member.id!!)
 
         // then
-        assertEquals(findMember, memberRepository.findOne(member.id!!))
+        assertEquals(findMember, memberRepository.findById(member.id!!).orElseThrow())
     }
 }

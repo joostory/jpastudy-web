@@ -1,7 +1,10 @@
 package net.joostory.jpastudy.domain
 
+import org.springframework.data.jpa.domain.Specification
+import org.thymeleaf.util.StringUtils
 import java.util.Date
 import javax.persistence.*
+import javax.persistence.criteria.JoinType
 
 @Entity
 @Table(name = "ORDERS")
@@ -73,6 +76,23 @@ class Order(
         }
     }
 
+}
+
+class OrderSpec {
+    companion object {
+        fun memberName(memberName: String): Specification<Order> = Specification { root, query, builder ->
+            if (!StringUtils.isEmpty(memberName)) {
+                val m = root.join<Order, Member>("member", JoinType.INNER)
+                builder.equal(m.get<String>("name"), memberName)
+            } else {
+                null
+            }
+        }
+
+        fun isOrderStatus(): Specification<Order> = Specification { root, query, builder ->
+            builder.equal(root.get<OrderStatus>("status"), OrderStatus.ORDER)
+        }
+    }
 }
 
 @Entity

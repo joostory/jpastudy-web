@@ -8,6 +8,10 @@ spring:
     hibernate:
       ddl-auto: create-drop
     show-sql: true
+    properties:
+      hibernate:
+        format_sql: true
+        use_sql_comments: true
 #  sql:
 #    init:
 #      schema-locations: classpath:h2/schema.sql
