@@ -16,10 +16,7 @@ import javax.persistence.criteria.JoinType
 import javax.persistence.criteria.Predicate
 
 @Repository
-interface OrderRepository: JpaRepository<Order, Long>, JpaSpecificationExecutor<Order>, CustomOrderRepository {
-    @Query("select o from Order o where o.id=?1")
-    fun findOne(id: Long): Order?
-}
+interface OrderRepository: JpaRepository<Order, Long>, JpaSpecificationExecutor<Order>, CustomOrderRepository
 
 interface CustomOrderRepository {
     fun search(orderSearch: OrderSearch): MutableList<Order>

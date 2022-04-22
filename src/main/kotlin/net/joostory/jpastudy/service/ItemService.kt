@@ -18,7 +18,7 @@ class ItemService(
         return itemRepository.findAll()
     }
 
-    fun findOne(itemId: Long): Item? {
-        return itemRepository.findOne(itemId)
+    fun findOne(itemId: Long): Item {
+        return itemRepository.findById(itemId).orElseThrow()
     }
 }

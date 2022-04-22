@@ -9,6 +9,7 @@ import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
+import org.springframework.data.repository.findByIdOrNull
 import org.springframework.transaction.annotation.Transactional
 
 @SpringBootTest
@@ -36,7 +37,7 @@ internal class OrderServiceTest(
         val orderId = orderService.order(member.id!!, item.id!!, orderCount)
 
         // then
-        val order = orderRepository.findOne(orderId!!)
+        val order = orderRepository.findByIdOrNull(orderId!!)
 
         assertEquals(OrderStatus.ORDER, order!!.status, "상품주문시 상태는 ORDER")
         assertEquals(1, order.orderItems.size, "주문한 상품종류 수가 정확해야한다.")
@@ -71,7 +72,7 @@ internal class OrderServiceTest(
         orderService.cancelOrder(orderId!!)
 
         // then
-        val order = orderRepository.findOne(orderId)
+        val order = orderRepository.findByIdOrNull(orderId)
         assertEquals(OrderStatus.CANCEL, order!!.status, "주문취소시 상태는 CANCEL")
         assertEquals(stockQuantity + 2, item.stockQuantity, "주문이 취소된 상품은 그만큼 재고가 증가해야한다.")
     }

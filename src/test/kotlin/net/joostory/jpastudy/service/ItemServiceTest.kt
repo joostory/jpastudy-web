@@ -6,6 +6,7 @@ import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
+import org.springframework.data.repository.findByIdOrNull
 import org.springframework.transaction.annotation.Transactional
 
 @SpringBootTest
@@ -25,7 +26,7 @@ internal class ItemServiceTest(
 
         itemService.saveItem(item)
 
-        assertEquals(item, itemRepository.findOne(item.id!!))
+        assertEquals(item, itemRepository.findByIdOrNull(item.id!!))
     }
 
     @Test
@@ -46,6 +47,6 @@ internal class ItemServiceTest(
 
         val findItem = itemService.findOne(item.id!!)
 
-        assertEquals(findItem, itemRepository.findOne(item.id!!))
+        assertEquals(findItem, itemRepository.findByIdOrNull(item.id!!))
     }
 }
